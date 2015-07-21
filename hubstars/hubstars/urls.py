@@ -18,5 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
   url(r'^admin/', include(admin.site.urls)),
-  url(r'^$', 'hubstars.views.home', name='home')
+  url(r'^api/github-battle$', 'hubstars.views.battle', name='battle'),
+  url(r'^$', 'hubstars.views.home', name='home'),
 ]

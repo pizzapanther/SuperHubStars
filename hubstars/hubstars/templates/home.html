@@ -3,14 +3,74 @@
   <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hubstar.css' %}">
   </head>
-  <body ng-app="YourApp">
-    <div ng-controller="YourController">
-      NARF
+  <body ng-app="HubStar">
+    <div ng-controller="AppController" layout="column" layout-fill role="main" class="main">
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h1>HubStar</h1>
+          <span flex></span>
+        </div>
+      </md-toolbar>
+      <md-content md-scroll-y flex class="main-content md-padding">
+        <div ng-show="working" layout="row" layout-sm="column" layout-align="space-around">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <div ng-hide="working">
+          <form ng-submit="do_battle()" name="addForm">
+            <md-input-container>
+              <label>Github Project URL 1</label>
+              <input ng-model="form.url1" name="url1" required ng-pattern="url_pattern">
+              <div ng-messages="addForm.url1.$error">
+                <div ng-message="required">Project URL 1 is required.</div>
+                <div ng-message="pattern">Project URL must be in the format https://github.com/[USER]/[REPOSITORY].</div>
+                <div ng-message="custom">[[ errors.url1[0] ]]</div>
+              </div>
+            </md-input-container>
+            <md-input-container>
+              <label>Github Project URL 2</label>
+              <input ng-model="form.url2" name="url2" required ng-pattern="url_pattern">
+              <div ng-messages="addForm.url2.$error">
+                <div ng-message="required">Project URL 2 is required.</div>
+                <div ng-message="pattern">Project URL must be in the format https://github.com/[USER]/[REPOSITORY].</div>
+                <div ng-message="custom">[[ errors.url2[0] ]]</div>
+              </div>
+            </md-input-container>
+            <div>
+              <md-button class="md-raised md-primary">Start the Battle</md-button>
+            </div>
+          </form>
+        </div>
+        <div ng-show="results" class="results">
+          <md-divider></md-divider>
+          <h2>
+            <span ng-if="results.winner">Woohoo! [[ results.winner ]] has more stars</span>
+            <span ng-if="!results.winner">It's A Tie! Better luck next time.</span>
+          </h2>
+          <table>
+            <tr>
+              <th>Project</th>
+              <th>Stars</th>
+              <th>Forks</th>
+              <th>Watchers</th>
+            </tr>
+            <tr ng-repeat="project in [results.project1, results.project2]">
+              <td>[[ project.name ]]</td>
+              <td>[[ project.stars ]]</td>
+              <td>[[ project.forks ]]</td>
+              <td>[[ project.watchers ]]</td>
+            </tr>
+          </table>
+        </div>
+      </md-content>
     </div>
-    <script src="{% static 'bower_components/angular/angular.js' %}"></script>
-    <script src="{% static 'bower_components/angular-aria/angular-aria.js' %}"></script>
-    <script src="{% static 'bower_components/angular-animate/angular-animate.js' %}"></script>
-    <script src="{% static 'bower_components/angular-material/angular-material.js' %}"></script>
+    <script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular-aria/angular-aria.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular-animate/angular-animate.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular-material/angular-material.min.js' %}"></script>
+    <script src="{% static 'bower_components/angular-messages/angular-messages.min.js' %}"></script>
+    
+    <script src="{% static 'js/hubstar.js' %}"></script>
   </body>
 </html>
