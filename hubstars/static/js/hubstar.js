@@ -14,6 +14,10 @@ hubstar.controller("AppController", function ($scope, GithubService, $mdDialog) 
   $scope.do_battle = function () {
     if ($scope.addForm.$valid) {
       $scope.working = true;
+      $scope.addForm.url1.$error = {};
+      $scope.addForm.url2.$error = {};
+      $scope.errors = {};
+      $scope.results = null;
       
       GithubService.do_battle($scope.form)
         .success(function (data) {
@@ -21,8 +25,6 @@ hubstar.controller("AppController", function ($scope, GithubService, $mdDialog) 
         })
         .error(function (data) {
           $scope.errors = data.errors || {};
-          $scope.addForm.url1.$error = {};
-          $scope.addForm.url2.$error = {};
           
           if ($scope.errors.url1) {
             $scope.addForm.url1.$error = {custom: true};
